@@ -30,10 +30,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxt/postcss8',
-    '@nuxtjs/dotenv',
-  ],
+  buildModules: ['@nuxt/postcss8', '@nuxtjs/dotenv'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -45,7 +42,29 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://powerhuman.test/api/',
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'result.access_token',
+          global: true,
+          required: true,
+          type: 'Bearer',
+        },
+        user: {
+          property: 'result',
+          autoFetch: true,
+        },
+        endpoints: {
+          login: { url: '/login', method: 'post' },
+          logout: { url: '/logout', method: 'post' },
+          user: { url: '/user', method: 'get' },
+        },
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
